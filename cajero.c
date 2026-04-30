@@ -16,8 +16,9 @@ typedef struct {
     char   titular[MAX_STR];
 } Usuario;
 
-/* Prototipo */
-int iniciarSesion(Usuario u[], int *idx);
+/* Prototipos */
+int  iniciarSesion(Usuario u[], int *idx);
+void mostrarMenu(void);
 
 int main(void) {
 
@@ -29,23 +30,38 @@ int main(void) {
         {"aruiz",  "9876",  15000.00, "Ana Ruiz"}
     };
 
-    int idx = -1;
+    int idx = -1, opcion = 0;
 
     printf("====================================\n");
     printf("     CAJERO AUTOMATICO DIGITAL\n");
     printf("====================================\n\n");
 
-    /* Validar credenciales del usuario */
     if (!iniciarSesion(usuarios, &idx)) {
         printf("[!] Acceso denegado. Credenciales incorrectas.\n");
         return 1;
     }
 
     printf("\nBienvenido/a, %s!\n", usuarios[idx].titular);
+
+    /* Bucle principal: se mantiene activo hasta que el usuario elija salir */
+    do {
+        mostrarMenu();
+        printf("Opcion: ");
+        scanf("%d", &opcion);
+
+        switch (opcion) {
+            case 1: printf("(Consultar saldo - en construccion)\n"); break;
+            case 2: printf("(Depositar - en construccion)\n");       break;
+            case 3: printf("(Retirar - en construccion)\n");         break;
+            case 4: printf("\nSesion cerrada. Hasta luego!\n\n");    break;
+            default: printf("[!] Opcion invalida.\n");               break;
+        }
+    } while (opcion != 4);
+
     return 0;
 }
 
-/* iniciarSesion: pide usuario y clave, devuelve 1 si son correctos */
+/* iniciarSesion: valida usuario y clave, devuelve 1 si son correctos */
 int iniciarSesion(Usuario u[], int *idx) {
     char nombre[MAX_STR], clave[MAX_STR];
     int i;
@@ -62,4 +78,14 @@ int iniciarSesion(Usuario u[], int *idx) {
     }
 
     return 0;
+}
+
+/* mostrarMenu: imprime las opciones disponibles */
+void mostrarMenu(void) {
+    printf("\n--- MENU PRINCIPAL ---\n");
+    printf("1. Consultar saldo\n");
+    printf("2. Depositar dinero\n");
+    printf("3. Retirar dinero\n");
+    printf("4. Salir\n");
+    printf("----------------------\n");
 }
